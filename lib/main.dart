@@ -1,6 +1,8 @@
+import 'package:first_app/answer.dart';
 import 'package:flutter/material.dart';
 
 import './question.dart';
+import './answer.dart';
 
 // void main() {
 // runApp(MyApp());
@@ -17,23 +19,41 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<String> questions = [
-    'What\'s your favorite color?',
-    'What\'s your favorite animal?',
+  var questions = [
+    {
+      'questionText': 'What\'s your favorite color?',
+      'answers': [
+        'Black',
+        'White',
+        'Red',
+        'Blue',
+      ]
+    },
+    {
+      'questionText': 'What\'s your favorite animal?',
+      'answers': [
+        'Dog',
+        'Cat',
+        'Rabbit',
+        'Other',
+      ]
+    },
+    {
+      'questionText': 'Who\'s your favorite person?',
+      'answers': [
+        'Max',
+        'Max',
+        'Max',
+        'Max',
+      ]
+    },
   ];
 
   var _questionIndex = 0;
 
-  void answer() {
+  void _answerQuestion() {
     setState(() {
       _questionIndex += 1;
-    });
-    print(_questionIndex);
-  }
-
-  void answer2() {
-    setState(() {
-      _questionIndex -= 1;
     });
     print(_questionIndex);
   }
@@ -47,22 +67,11 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: <Widget>[
-            Question(questions[_questionIndex]),
-            RaisedButton(
-              child: Text('Answer 1'),
-              onPressed: answer,
-            ),
-            RaisedButton(
-              child: Text('Answer 2'),
-              // onPressed: () => print('sample'),
-              onPressed: answer2,
-            ),
-            RaisedButton(
-              child: Text('Answer 3'),
-              onPressed: () {
-                print('sample');
-              },
-            ),
+            Question(questions[_questionIndex]['questionText']),
+            ...(questions[_questionIndex]['answers'] as List<String>)
+                .map((answer) {
+              return Answer(_answerQuestion, answer);
+            }).toList()
           ],
         ),
       ),
